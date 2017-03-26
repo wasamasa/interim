@@ -1,0 +1,14 @@
+* =sledge/tests/mario.l=
+
+The data files are somewhere in the git history of the repository.  By
+knowing that the format of =mario.888= and =smb3.888= is 32 bits RGBA
+(see =notes/mksprite.sh=), one can guess the dimensions of the
+original files from their file sizes.  It's a bit easier if you look
+at the (unused?) ~font-pitch~ variables which is double the width.
+Anyway, with this information, it's relatively simple to reconstruct
+the source files:
+
+#+BEGIN_SRC sh
+convert -size 200x241 -depth 8 rgba:mario.888 mario.png
+convert -size 493x493 -depth 8 rgba:smb3.888 smb3.png
+#+END_SRC

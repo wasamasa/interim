@@ -1,0 +1,191 @@
+* Concepts
+
+** LDR<X> vs. STR<X>
+
+These correspond to the get<width> and put<width> instructions
+
+* JIT Opcodes [46/46]
+
+** DONE jit_movi
+
+Move immediate value to register
+
+** DONE jit_movr
+
+Move source to destination register
+
+** DONE jit_movneg
+
+Move source to destination register if negative flag set
+
+** DONE jit_movne
+
+Move source to destination register if not equal flag set
+
+** DONE jit_moveq
+
+Move source to destination register if equal flag set
+
+** DONE jit_lea
+
+Load from address to register
+
+** DONE jit_ldr
+
+Load address in a register into the register itself.
+
+** DONE jit_ldr_stack
+
+Load register from stack with the given offset
+
+** DONE jit_str_stack
+
+Store register in stack with the given offset
+
+** DONE jit_inc_stack
+
+Increment stack by offset
+
+** DONE jit_dec_stack
+
+Decrement stack by offset
+
+** DONE jit_ldrb
+
+Load byte from data register to register
+
+** DONE jit_ldrs
+
+Load short (2 bytes) from data register to register
+
+** DONE jit_ldrw
+
+Load word (4 bytes) from data register to register
+
+** DONE jit_strb
+
+Store byte from data register in register
+
+** DONE jit_strs
+
+Store short (2 bytes) from data register in register
+
+** DONE jit_strw
+
+Store word (4 bytes) from data register in register
+
+** DONE jit_stra
+
+Store quad (8 bytes) from data register in register
+
+** DONE jit_addr
+
+Add source to destination register
+
+** DONE jit_addi
+
+Add immediate value to destination register
+
+** DONE jit_andr
+
+Bit-And source to destination register
+
+** DONE jit_notr
+
+Bit-Not the register
+
+** DONE jit_orr
+
+Bit-Or source to destination register
+
+** DONE jit_xorr
+
+Bit-Xor source to destination register
+
+** DONE jit_shrr
+
+Bit-Shift-Right destination by amount in source register
+
+** DONE jit_shlr
+
+Bit-Shift-Left destination by amount in source register
+
+** DONE jit_subr
+
+Subtract source from destination register
+
+** DONE jit_mulr
+
+Multiply source with destination register
+
+** DONE jit_divr
+
+Integer-divide destination by source register
+
+** DONE jit_host_call_enter
+
+Prepare a C function call
+
+** DONE jit_host_call_exit
+
+Clean up after C function call
+
+** DONE jit_call
+
+Call a C function (and insert an annotation, like the function name)
+
+** DONE jit_callr
+
+Call a function pointed to by the register
+
+** DONE jit_modr
+
+Calculate modulo of destination by source register
+
+** DONE jit_cmpi
+
+Compare register with immediate value and set flags
+
+** DONE jit_cmpr
+
+Compare registers and set flags
+
+** DONE jit_je
+
+Jump to label if equal flag is set
+
+** DONE jit_jne
+
+Jump to label if not equal flag is set
+
+** DONE jit_jge
+
+Jump to label if greater or equal flag is set
+
+** DONE jit_jneg
+
+Jump to label if negative flag is set
+
+** DONE jit_jmp
+
+Jump unconditionally to label
+
+** DONE jit_label
+
+Emit a label to jump/branch to
+
+** DONE jit_ret
+
+Return to calling procedure
+
+** DONE jit_push
+
+Push registers between both arguments (inclusive range) to stack
+
+** DONE jit_pop
+
+Pop registers between both arguments (inclusive range) from stack
+
+** DONE jit_comment
+
+Emit a comment

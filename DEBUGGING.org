@@ -1,0 +1,74 @@
+* UART
+
+- requires 115200 baud
+- 1 stop bit, no parity (picocom defaults)
+- gpio pins 6, 8, 10 for GND, RX, TX
+- needs a voltmeter for debugging
+- debug at the hackerspace?
+
+* Log to file
+
+- there is code for this kind of thing
+- however it's not guaranteed you can just open something, look at
+  fatfs code to ensure it works
+
+#+BEGIN_SRC c
+FILE* f = fopen("/tmp/jit.x86","w+");
+fwrite(code, 1, codesz, f);
+fclose(f);
+#+END_SRC
+
+* Change BG color
+
+- bisection by memsetting the FB to something else than =0xff= and a
+  different color at another place
+
+* Debug to screen
+
+- continuation of BG color idea
+- if one can memset the FB, it shouldn't be much harder to set an
+  individual pixel to a color
+- write a function putting a character into a fixed-size box
+- write a function to print a line
+- write a function to print arbitrary text (interpreting newlines,
+  moving target row down)
+
+* QEMU
+
+You'll need a recent QEMU for this with the raspi2 system.  The
+general command line for launching is:
+
+#+BEGIN_SRC sh
+qemu-system-arm -M raspi2 -m 1024 -kernel build/interim-arm.elf -serial stdio
+#+END_SRC
+
+Note that QEMU supports running the raw binary image (located at
+=build/kernel7.img=), however it expects an entry point of =0x10000=
+instead of =0x8000= in =devices/rpi2/arm.ld=.
+
+The built kernel will hang, to debug why you'll have to boot QEMU with
+a gdb server:
+
+#+BEGIN_SRC sh
+qemu-system-arm -M raspi2 -m 1024 -kernel build/interim-arm.elf -gdb tcp::26000
+#+END_SRC
+
+Open a suitable =gdb= from the same toolchain as what you've compiled
+the kernel with:
+
+#+BEGIN_SRC sh
+arm-none-eabi-gdb
+(gdb) target remote localhost:26000
+(gdb) symbol-file build/interim-arm.elf
+(gdb) continue
+(gdb) ^C
+(gdb) bt
+#+END_SRC
+
+The backtrace suggests that hardware timers aren't working correctly.
+The workaround for this is to replace the definition of ~uart_init~
+with the commented out version that uses busy-waiting for delays.
+Starting the kernel then proceeds up to a white screen and prints out
+messages successfully via UART until encountering the USPi exception
+handler.  Fixing this requires understanding the USPi library and how
+it's used...

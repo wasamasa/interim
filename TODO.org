@@ -1,0 +1,201 @@
+* TODO Make =mario.l= run
+
+This seems to depend on a mario sprite sheet which can be converted to
+the necessary file, see =notes/mksprite.sh=.
+
+Then, gfxtest2.l appears to have a sprite, if only it didn't segfault...
+
+* TODO Fix glitches in gtn.l
+
+It can be launched, but not quit.  Movement only goes diagonally(!)
+when hitting the arrow keys.
+
+* TODO Better shell.l
+
+** DONE Colors
+
+White on black would be cooler, so define colors, use variables
+pointing to them and adjust char rendering accordingly.
+
+** TODO Scrolling
+
+** TODO Clear on C-l
+
+Invoking (clear) is OK, but prints a zero.
+
+** TODO Infinite history
+
+Seems to cut off after a small amount ._.
+
+* TODO Better debugging/editing experience
+
+** TODO Figure out the editor
+
+Apparently one exits it with the escape key, but there's many more
+functions concerned with editing...
+
+** TODO pp
+
+Evaluating a function prints its definition, but it's hard to read.
+
+** TODO Docstrings
+
+** TODO Steal Picolisp stuff (edit definition and reload)
+
+** TODO pr-str/str/prn/println
+
+Print accepts one argument only, most of the time you'll want to use
+more than one.
+
+* TODO Errors
+
+None are ever shown on the rpi, this is most likely due to errors
+consisting of a message to stdout/UART (which you can't see) and a
+return value you forget to check.  Exceptions would be nice to have,
+like by immediately returning an error object on an error condition
+and displaying that appropriately.  That would also allow
+throwing/catching errors...
+
+* TODO print
+
+- Just uses printf/uart_puts (should use a print handler you can rebind)
+- Returns the printed thing (should return nil)
+- Doesn't show up in the repl (which should rebind the print handler)
+- Alternatively do it the scheme way and introduce (rebindable) ports
+- That way you could change the stdout port and read from it...
+
+* TODO Figure out differences between rpi and regular release
+
+** TODO Diffing
+
+Last change of =docs/interim-0.1.0-rpi2.tgz= belongs to =d3bdbb4=.
+
+** TODO Building my own release
+
+I'm on it, currently debugging USPi...
+
+** TODO Customizing it
+
+Loading a =custom.l= would be nice.
+
+* TODO Make HTTP and IRC run
+
+See sledge/legacy/{irc,web}.l and sledge/os/net.l.  I suspect this
+requires a net task so that nothing ever hangs...
+
+* TODO Make grumpycat run
+
+This seems to be a matter of having a 565 image handy and copying it
+to screen?
+
+* TODO Fix up all examples to not segfault
+
+- boot2.l can segfault if you drag the window too much
+- gfxtest2.l segfaults after the put32 (which still has debug code in it)
+
+* TODO Debug interface to local Emacs (SLIME?)
+
+That would be awesome for controlling a rpi from the local network.
+
+* TODO Improve the language
+
+** TODO No more "module" list
+
+- Eval accepts a list(!)
+- Eval should accept one argument
+- Write load function that reads in from a file
+
+** TODO Useful built-ins
+
+- and
+- or
+- cond/case
+
+** TODO Reader Macros
+
+- ASCII char(!)
+- quote
+- backquote
+- unquote
+- splice
+
+** TODO Macros
+
+Allows for less painful coding, like by having defn, when/unless, ...
+
+** TODO Evolving the whole thing towards a proper Lisp
+
+- Which lisp? (Scheme? Clojure? Picolisp? All of them?)
+- let (with a body, allowed anywhere)
+- Truthiness values
+- fn with an arg list (would allow rest args which beat concat cascades)
+- Proper formatting (classic or picolisp?)
+- First-class functions (look-up is only done for globals, function
+  call position is special)
+- apply once rest args are a thing (or reduce?)
+- Stdlib: https://github.com/kedebug/LispEx/blob/master/stdlib.ss
+- if (why do you need to specify all branches and why the 0?)
+- predicates and type-of
+
+* TODO Improve the compiler
+
+** TODO GC
+
+- It's possible to hold on a freed variable...
+- Automatic GC please (it's a major pain to manually run it at the
+  right moment)
+
+** TODO Fix put32
+
+Looks like someone left debugging code there...
+
+** TODO TCO
+
+Necessary for tail-recursive loops, would allow named let sugar.
+
+* TODO "Make the source a human-readable paragon of software development brilliance"
+
+- There's a lot to be learned from Linux when it comes to low-level
+  stuff (reg_write, memory barriers, abstraction, no register keyword)
+- Throw out unused code
+- Consistent error handling
+- Stop using unsafe functions
+- Null-terminate strings by snprintf
+- Code formatting (goes for both C and lisp)
+
+* TODO Readline support in sledge
+
+- Completion would be awesome to have
+- Also a proper continuation prompt
+- And history!
+
+* TODO Write graphical demo
+
+Sort of done, needs more global variables...
+
+* TODO Docs
+
+** TODO Compiler (JIT-Instruction set)
+
+** TODO Lisp
+
+The official docs are a bit outdated and don't feature everything.
+
+** TODO Filesystems
+
+Note that they behave somewhat different in hosted and bare metal
+mode, see the mouse (absolute vs relative coordinates), keyboard
+(layouts) and FS abstractions (POSIX is unwritable, FAT is).
+
+** TODO Libraries
+
+The stuff in =sledge/os=.
+
+** TODO The attic
+
+Lives in =sledge/legacy=, but there's many more that aren't used.
+
+** TODO Tests
+
+A pile of lisp in =sledge/tests=.  Actual tests (of the automated and
+verifiable kind) would be great to have.
