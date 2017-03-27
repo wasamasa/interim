@@ -43,7 +43,7 @@
       (def maxx 1700)
       (let msg (bytes->str packet))
 
-      (boxfill 1000 net-y 716 64 0xffff)
+      (boxfill 1000 net-y 716 64 bg)
       (let ofsy (+ (blit-str msg minx net-y) rune-h))
       
       (def minx temp-minx)
@@ -59,7 +59,7 @@
 )))
 
 (def http-get (fn host path (do
-  (boxfill 1000 0 800 1000 0xffff)
+  (boxfill 1000 0 800 1000 bg)
   (let header (concat (concat "Host: " host) (bytes->str [0d0a0d0a])))
   (send net (concat (concat (concat (concat "GET " path) " HTTP/1.1") (bytes->str [0d0a])) header))
 )))

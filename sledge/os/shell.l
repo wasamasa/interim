@@ -13,7 +13,7 @@
   surface (surface))
 
 (def draw-logo (fn ox oy (do
-  (let c 0xff8e)
+  (let c yellow)
   (line fb (pt (+ ox 16) (- oy 38)) (pt (+ ox 16) (- oy 102)) c)
   (line fb (pt (+ ox 16) (- oy 102)) (pt (+ ox 80) (- oy 38)) c)
   (line fb (pt (+ ox 80) (- oy 38)) (pt (+ ox 80) (- oy 102)) c)
@@ -39,6 +39,7 @@
 
 (import "/sd/os/mouse.l")
 
+(clear)
 (draw-logo (- (/ (sget fb width) 2) 140) (/ (sget fb height) 2))
 (blit-str fb unifont "hello" 100 100)
 
@@ -61,9 +62,9 @@
       (let w (sget task-surf width))
       (let h (sget task-surf height))
       (if (and (gt w 0) (gt h 0)) (do
-        (box task-surf 0 0 (- w 1) (- h 1) 0)
-        (box task-surf 0 0 (- w 1) 20 0)
-        (box task-surf (- w 16) (- h 16) (- w 1) (- h 1) 0)
+        (box task-surf 0 0 (- w 1) (- h 1) fg)
+        (box task-surf 0 0 (- w 1) 20 fg)
+        (box task-surf (- w 16) (- h 16) (- w 1) (- h 1) fg)
         (blit-str task-surf unifont (sget t name) 2 2)
         (blit fb task-surf)
       ) 0)
@@ -107,7 +108,7 @@
   (if mouse-dragging
     (if (sget t focused)
       (do
-              (boxfill fb x y (- x2 x) (- y2 y) 0xffff)
+              (boxfill fb x y (- x2 x) (- y2 y) bg)
               (if (or mouse-resizing (and (gt mouse-x (- x2 16)) (gt mouse-y (- y2 16))))
                 (do ; resize
                   (let nw (+ (sget surf width) mouse-dx))
@@ -211,7 +212,7 @@
   (sput my-task focused 0)
   (sput my-task surface (make-surface x y 400 240))
   (let s (sget my-task surface))
-  (boxfill s 0 0 400 240 0xffff)
+  (boxfill s 0 0 400 240 bg)
   (sput my-task redrawn 1)
   (add-task repl-task my-task my-repl)
   (def mask-task-id (+ max-task-id 1))

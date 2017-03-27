@@ -63,7 +63,7 @@
   (if (or scroll-dirty (not (eq (sget this last-num-lines) (list-size lines)))) (do
       (let render-all 1)
       (print "editor boxfill")
-      (boxfill surf 0 0 maxx maxy 0xffff)
+      (boxfill surf 0 0 maxx maxy bg)
       (sput this scroll-dirty 0)
     )
   0)
@@ -88,7 +88,7 @@
 
       ; blank out the line
       ;(if only-current (do
-      ;  (boxfill surf x y maxx (sget font rune-h) 0xffff)
+      ;  (boxfill surf x y maxx (sget font rune-h) bg)
       ;) 0)
     ) 0)
     

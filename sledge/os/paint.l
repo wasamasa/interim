@@ -3,8 +3,8 @@
 (def gfx-h 16)
 (def block-size 16)
 (def gfxbuf (alloc (shl (* gfx-w gfx-h) 1)))
-(def palette (list 0x0000 0xffff 0x8888 0xf000 0x0f00 0x00f0 0x0f70 0xf00f))
-(def gfx-color 0x0000)
+(def palette (list fg bg red green blue yellow cyan magenta))
+(def gfx-color fg)
 
 (def get-gfx (fn x y (do
   (let ofs 0)

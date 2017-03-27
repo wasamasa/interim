@@ -27,6 +27,18 @@
 
 (def screen (open "/framebuffer"))
 
+(def black   0x0000)
+(def white   0xffff)
+(def red     0xf800)
+(def green   0x07e0)
+(def blue    0x001f)
+(def yellow  0xffe0)
+(def cyan    0x07ff)
+(def magenta 0xf81f)
+
+(def bg white)
+(def fg black)
+
 (def set-pixel (fn (surf surface) x y c (do
   (let pixels (sget surf pixels))
   (let ofs (+ (* y (sget surf pitch)) (shl x (sget surf shift))))
@@ -104,7 +116,8 @@
     (let ix 0)
     (while (lt ix rune-ww) (do
       (let c (get8 font-pixels (+ so (shr ix 1))))
-      (put16 pixels (+ do ix) (bitor c (shl c 8)))
+      (let c (if (eq c 0) fg bg)) ; remap black/white to fg/bg
+      (put16 pixels (+ do ix) c)
       (let ix (+ ix 2))
     ))
     (let so (+ so font-pitch))
@@ -359,6 +372,6 @@
   x
 )))
 
-(def clear (fn (boxfill fb 0 0 (- (sget fb width) 1) (- (sget fb height) 1) 0xffff)))
+(def clear (fn (boxfill fb 0 0 (- (sget fb width) 1) (- (sget fb height) 1) bg)))
 
 )
