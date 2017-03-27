@@ -1543,7 +1543,7 @@ Cell* compile_expr(Cell* expr, Frame* frame, Cell* return_type) {
       char label_skip[64];
       sprintf(label_skip,"Lskip_%d",++label_skip_count);
     
-      load_cell(R1,argdefs[0], frame);
+      load_cell(R0,argdefs[0], frame);
       load_int(R2,argdefs[1], frame); // offset -> R2
       load_int(R3,argdefs[2], frame); // word to store -> R3
 
@@ -1565,8 +1565,6 @@ Cell* compile_expr(Cell* expr, Frame* frame, Cell* return_type) {
       jit_strw(R1); // store from r3
       
       jit_label(label_skip);
-      jit_movr(R0,R1);
-      jit_call(alloc_int,"debug");
       
       break;
     }
