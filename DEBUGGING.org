@@ -1,10 +1,14 @@
 * UART
 
-- requires 115200 baud
-- 1 stop bit, no parity (picocom defaults)
-- gpio pins 6, 8, 10 for GND, RX, TX
-- needs a voltmeter for debugging
-- debug at the hackerspace?
+- connect cables from UART adapter (GND, RX, TX) to GPIO pins (6, 8, 10)
+- plug UART adapter into computer, check the device name with =dmesg=
+  (=/dev/ttyUSB0= in my case)
+- =sudo picocom -b 115200 /dev/ttyUSB0=
+- connect power plug to raspberry pi
+- stick power plug into wall socket (the other way around is a bad
+  idea, I've managed frying my previous raspberry pi this way)
+- see messages scrolling by for a while
+- type away after getting a prompt
 
 * Log to file
 

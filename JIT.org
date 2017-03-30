@@ -28,11 +28,12 @@ Move source to destination register if equal flag set
 
 ** DONE jit_lea
 
-Load from address to register
+Copies adress to register, similar to ~jit_movi~ for immediates
 
 ** DONE jit_ldr
 
-Load address in a register into the register itself.
+Load address in a register into the register itself.  Essentially
+pointer dereferencing.
 
 ** DONE jit_ldr_stack
 
@@ -76,7 +77,7 @@ Store word (4 bytes) from data register in register
 
 ** DONE jit_stra
 
-Store quad (8 bytes) from data register in register
+Store address/quad (8 bytes) from data register in register
 
 ** DONE jit_addr
 

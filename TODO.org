@@ -47,6 +47,11 @@ Evaluating a function prints its definition, but it's hard to read.
 Print accepts one argument only, most of the time you'll want to use
 more than one.
 
+** TODO UART-REPL doesn't echo properly
+
+Instead of printing each character, it prints the integer representing
+it followed by a newline.  This happens with the old rpi image.
+
 * TODO Errors
 
 None are ever shown on the rpi, this is most likely due to errors
@@ -104,6 +109,7 @@ That would be awesome for controlling a rpi from the local network.
 - Eval accepts a list(!)
 - Eval should accept one argument
 - Write load function that reads in from a file
+- Fix it both in sledge and the rpi2 version
 
 ** TODO Useful built-ins
 
@@ -125,7 +131,7 @@ Allows for less painful coding, like by having defn, when/unless, ...
 
 ** TODO Evolving the whole thing towards a proper Lisp
 
-- Which lisp? (Scheme? Clojure? Picolisp? All of them?)
+- Which lisp? (Scheme? Clojure? Picolisp? MAL? All of them?)
 - let (with a body, allowed anywhere)
 - Truthiness values
 - fn with an arg list (would allow rest args which beat concat cascades)
@@ -136,6 +142,8 @@ Allows for less painful coding, like by having defn, when/unless, ...
 - Stdlib: https://github.com/kedebug/LispEx/blob/master/stdlib.ss
 - if (why do you need to specify all branches and why the 0?)
 - predicates and type-of
+- do doesn't mutate the global env (in fact, if we go by MAL, you'd
+  need an eval helper taking an env)
 
 * TODO Improve the compiler
 
