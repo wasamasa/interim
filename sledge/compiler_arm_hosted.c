@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 
-int compile_for_platform(Cell* expr, Cell** res) {
+Cell* compile_for_platform(Cell* expr, Cell** res) {
   code = mmap(0, CODESZ, PROT_READ | PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, 0, 0);
   memset(code, 0, CODESZ);
   jit_init(0x400);
@@ -12,7 +12,7 @@ int compile_for_platform(Cell* expr, Cell** res) {
 
   register void* sp asm ("sp"); // FIXME maybe unportable
   Frame empty_frame = {NULL, 0, 0, sp};
-  int tag = compile_expr(expr, &empty_frame, TAG_ANY);
+  Cell* tag = compile_expr(expr, &empty_frame, TAG_ANY);
   jit_ret();
 
   FILE* f = fopen("/tmp/test","w");
@@ -39,5 +39,5 @@ int compile_for_platform(Cell* expr, Cell** res) {
   //printf("pointer result: %p\n",*res);
   //printf("pointer value: %p\n",((Cell*)*res)->value);
 
-  return 1;
+  return tag;
 }

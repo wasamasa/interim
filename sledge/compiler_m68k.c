@@ -4,9 +4,9 @@ Cell* execute_jitted(void* binary) {
 
 void memdump(void* start,uint32_t len,int raw);
 
-int compile_for_platform(Cell* expr, Cell** res) {
+Cell* compile_for_platform(Cell* expr, Cell** res) {
   int codesz = 8192;
-  int success = 0;
+  Cell* success;
   register void* sp __asm ("sp");
   Frame empty_frame = {NULL, 0, 0, sp};
   

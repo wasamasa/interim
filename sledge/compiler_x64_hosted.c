@@ -13,7 +13,7 @@ Cell* execute_jitted(void* binary) {
   return (Cell*)((funcptr)binary)(0);
 }
 
-int compile_for_platform(Cell* expr, Cell** res) {
+Cell* compile_for_platform(Cell* expr, Cell** res) {
   jit_out = fopen("/tmp/jit_out.s","w");
   
   jit_init();
@@ -156,5 +156,5 @@ int compile_for_platform(Cell* expr, Cell** res) {
       success = 0;
     }
   }
-  return !!success;
+  return success;
 }

@@ -2,10 +2,11 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include "minilisp.h"
 #include <stdlib.h>
-#include "alloc.h"
+#include <unistd.h>
 
+#include "minilisp.h"
+#include "alloc.h"
 #include "compiler_new.c"
 
 #define BUFSZ 2048
@@ -144,7 +145,7 @@ int main(int argc, char *argv[])
     
     if (expr) {      
       Cell* res;
-      int success = compile_for_platform(expr, &res);
+      Cell* success = compile_for_platform(expr, &res);
       
       if (success) {
         if (in_f == stdin) {
@@ -169,7 +170,7 @@ Cell* platform_eval(Cell* expr) {
   int i = 0;
   Cell* res = (Cell*)alloc_nil();
   Cell* c;
-  int tag;
+  Cell* tag;
   
   if (!expr || expr->tag!=TAG_CONS) {
     printf("[platform_eval] error: no expr given.\r\n");
