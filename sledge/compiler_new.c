@@ -1904,4 +1904,5 @@ void init_compiler() {
   insert_symbol(alloc_sym("debug"), alloc_builtin(BUILTIN_DEBUG, NULL), &global_env);
   
   printf("[compiler] interim knows %u symbols. enter (symbols) to see them.\r\n", sm_get_count(global_env));
+  free(signature);
 }
