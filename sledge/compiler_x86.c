@@ -46,7 +46,7 @@ Cell* compile_for_platform(Cell* expr, Cell** res) {
     //fclose(f);
     
 #ifndef WIN32
-    int mp_res = mprotect(jit_binary, codesz, PROT_EXEC|PROT_READ);
+    mprotect(jit_binary, codesz, PROT_EXEC|PROT_READ);
 #endif
     *res = execute_jitted(jit_binary);
   }
