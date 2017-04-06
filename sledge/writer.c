@@ -87,15 +87,15 @@ char* write_(Cell* cell, char* buffer, int in_list, int bufsize) {
       if (car(car(args))->tag == TAG_CONS) {
         Cell* arg_cell = car(car(args));
         // typed arg
-        ai += snprintf(tmp_args+ai, TMP_BUF_SIZE-ai, ai ? " (%s %s)" : "(%s %s)", (char*)(car(arg_cell)->ar.addr), (char*)(car(cdr(arg_cell))->ar.addr));
+        ai += snprintf(tmp_args+ai, TMP_BUF_SIZE-ai, "(%s %s) ", (char*)(car(arg_cell)->ar.addr), (char*)(car(cdr(arg_cell))->ar.addr));
       } else {
         // untyped arg
-        ai += snprintf(tmp_args+ai, TMP_BUF_SIZE-ai, ai ? " %s" : "%s" , (char*)(car(car(args)))->ar.addr);
+        ai += snprintf(tmp_args+ai, TMP_BUF_SIZE-ai, "%s ", (char*)(car(car(args)))->ar.addr);
       }
       args = cdr(args);
     }
     write_(cdr(cell->ar.addr), tmp_body, 0, TMP_BUF_SIZE);
-    snprintf(buffer, bufsize, "(fn %s %s)", tmp_args, tmp_body);
+    snprintf(buffer, bufsize, "(fn %s%s)", tmp_args, tmp_body);
   } else if (cell->tag == TAG_BUILTIN) {
     snprintf(buffer, bufsize, "(op "INTFORMAT")", cell->ar.value);
   } else if (cell->tag == TAG_ERROR) {
