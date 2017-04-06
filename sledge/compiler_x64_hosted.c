@@ -19,7 +19,7 @@ Cell* compile_for_platform(Cell* expr, Cell** res) {
   jit_init();
   
   register void* sp asm ("sp");
-  Frame* empty_frame = malloc(sizeof(Frame)); // FIXME leak
+  Frame* empty_frame = malloc(sizeof(Frame));
   empty_frame->f=NULL;
   empty_frame->sp=0;
   empty_frame->locals=0;
@@ -101,6 +101,7 @@ Cell* compile_for_platform(Cell* expr, Cell** res) {
     if (bytes_read>codesz) {
       printf("<error: max assembly size of %d exhausted. aborting>\n",codesz);
       munmap(jit_binary,codesz);
+      free(empty_frame);
       return 0;
     }
 
@@ -156,5 +157,6 @@ Cell* compile_for_platform(Cell* expr, Cell** res) {
       success = 0;
     }
   }
+  free(empty_frame);
   return success;
 }
