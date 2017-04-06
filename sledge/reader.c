@@ -202,38 +202,36 @@ ReaderState* read_char(char c, ReaderState* rs) {
   return rs;
 }
 
-Cell* read_string(char* in) {
-  ReaderState rs;
+Cell* read_string(char* in, ReaderState* rs, Cell* stack_root) {
   int i, len;
-  Cell stack_root[32];
   Cell* root;
   Cell* ret_cell;
 
-  rs.state = PST_ATOM;
-  rs.cell = 0;
-  rs.level = 0;
-  rs.stack = (void*)&stack_root;
+  rs->state = PST_ATOM;
+  rs->cell = 0;
+  rs->level = 0;
+  rs->stack = (void*)stack_root;
 
   i=0;
   len = strlen(in);
   for (i=0; i<len; i++) {
-    read_char(in[i], &rs);
-    if (rs.state>=10) {
-      //print("<read error %d at %d.>\n",rs.state,i);
+    read_char(in[i], rs);
+    if (rs->state>=10) {
+      //print("<read error %d at %d.>\n",rs->state,i);
       return alloc_error(ERR_SYNTAX);
     }
-    //printf("rs %c: %d\n", in[i], rs.state);
+    //printf("rs %c: %d\n", in[i], rs->state);
   }
-  if (rs.level!=0) {
-    //print("<missing %d closing parens.>\r\n",rs.level);
+  if (rs->level!=0) {
+    //print("<missing %d closing parens.>\r\n",rs->level);
     return alloc_error(ERR_SYNTAX);
   }
-  if (rs.state!=PST_ATOM) {
+  if (rs->state!=PST_ATOM) {
     //printf("<read error: unexpected end of input.>\n");
     //return alloc_error(ERR_SYNTAX);
   }
 
-  root = *rs.stack;
+  root = *rs->stack;
   
   if (root) {
     ret_cell = car(root);
@@ -245,6 +243,8 @@ Cell* read_string(char* in) {
 }
 
 Cell* read_string_cell(Cell* in) {
+  ReaderState rs;
+  Cell stack_root[32];
   char* str;
   
   if (!in) return alloc_nil();
@@ -252,5 +252,5 @@ Cell* read_string_cell(Cell* in) {
   str = (char*)in->ar.addr;
   str[in->dr.size]=0;
   //printf("read[%s]\r\n",str);
-  return read_string(str);
+  return read_string(str, &rs, stack_root);
 }

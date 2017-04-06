@@ -125,7 +125,9 @@ int main(int argc, char *argv[])
       } else {
         in_offset=0;
         if (len>1) {
-          expr = (Cell*)read_string(in_buffer);
+          ReaderState rs;
+          Cell stack_root[32];
+          expr = (Cell*)read_string(in_buffer, &rs, stack_root);
         } else {
           //printf("\r\n");
         }

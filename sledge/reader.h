@@ -29,7 +29,7 @@ typedef struct ReaderState {
 } ReaderState;
 
 ReaderState* read_char(char c, ReaderState* rs);
-Cell* read_string(char* in);
+Cell* read_string(char* in, ReaderState* rs, Cell* stack_root);
 Cell* read_string_cell(Cell* in);
 
 #endif
