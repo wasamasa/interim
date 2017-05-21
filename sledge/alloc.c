@@ -427,24 +427,19 @@ Cell* alloc_string_from_bytes(Cell* bytes) {
 Cell* alloc_concat(Cell* str1, Cell* str2) {
   Cell* cell;
   int size1, size2, newsize;
-  
+
   if (!str1 || !str2) return alloc_string_copy("");
   if (str1->tag!=TAG_BYTES && str1->tag!=TAG_STR) return alloc_string_copy("");
   if (str2->tag!=TAG_BYTES && str2->tag!=TAG_STR) return alloc_string_copy("");
-  
-  cell = cell_alloc();
 
-  size1 = strlen(str1->ar.addr); // ,str2->size
+  cell = cell_alloc();
+  size1 = strlen(str1->ar.addr);
   size2 = strlen(str2->ar.addr);
   newsize = size1+size2;
   cell->ar.addr = bytes_alloc(newsize+1);
   cell->dr.size = newsize;
-
-  strncpy(cell->ar.addr, str1->ar.addr, size1);
-  strncpy(cell->ar.addr+size1, str2->ar.addr, 1+cell->dr.size-size1);
-  ((char*)cell->ar.addr)[newsize]=0;
   cell->tag = TAG_STR;
-  cell->dr.size = newsize;
+  snprintf(cell->ar.addr, newsize+1, "%s%s", str1->ar.addr, str2->ar.addr);
   return cell;
 }
 
