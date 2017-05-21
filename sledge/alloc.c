@@ -436,7 +436,7 @@ Cell* alloc_concat(Cell* str1, Cell* str2) {
 
   size1 = strlen(str1->ar.addr); // ,str2->size
   size2 = strlen(str2->ar.addr);
-  newsize = size1+size2+1;
+  newsize = size1+size2;
   cell->ar.addr = bytes_alloc(newsize+1);
   cell->dr.size = newsize;
 
