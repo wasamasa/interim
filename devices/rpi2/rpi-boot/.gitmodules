@@ -1,0 +1,3 @@
+[submodule "libdtc"]
+	path = libdtc
+	url = https://github.com/jncronin/dtc.git

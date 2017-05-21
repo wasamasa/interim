@@ -22,10 +22,6 @@
 #ifndef VFS_H
 #define VFS_H
 
-#define ENABLE_SD 1
-#define ENABLE_MBR 1
-#define ENABLE_FAT 1
-
 struct vfs_file;
 
 #include "dirent.h"

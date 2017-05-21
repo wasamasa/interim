@@ -257,7 +257,7 @@ static FILE *ext2_fopen(struct fs *fs, struct dirent *path, const char *mode)
 
 	// We have to load the inode to get the length
 	struct ext2_inode *inode = ext2_read_inode(ext2,
-			(uint32_t)path->opaque);
+			(uintptr_t)path->opaque);
 	ret->len = (long)inode->size;	// no support for large files
 	free(inode);
 
@@ -278,7 +278,7 @@ static size_t ext2_fread(struct fs *fs, void *ptr, size_t byte_size, FILE *strea
 		return -1;
 
 	struct ext2_inode *inode = ext2_read_inode((struct ext2_fs *)fs,
-		(uint32_t)stream->opaque);
+		(uintptr_t)stream->opaque);
 
 	return fs_fread(ext2_get_next_bdev_block_num, fs, ptr, byte_size, stream, (void *)inode);
 }
@@ -400,16 +400,17 @@ int ext2_init(struct block_device *parent, struct fs **fs)
 	ret->pointers_per_indirect_block_3 = ret->pointers_per_indirect_block_2 *
 		ret->pointers_per_indirect_block;
 
+	uint32_t bgdt_size = ret->total_groups * sizeof(struct ext2_bgd);
+	// round up to a multiple of block_size
+	if(bgdt_size % ret->b.block_size)
+		bgdt_size = (bgdt_size / ret->b.block_size + 1) * ret->b.block_size;
+
+	ret->bgdt = (struct ext2_bgd *)malloc((size_t)bgdt_size);
+
 	// Read the block group descriptor table
-	ret->bgdt = (struct ext2_bgd *)malloc(ret->total_groups * sizeof(struct ext2_bgd));
 	int bgdt_block = 1;
 	if(ret->b.block_size == 1024)
 		bgdt_block = 2;
-
-    uint32_t bgdt_size = ret->total_groups * sizeof(struct ext2_bgd);
-    // round up to a multiple of block_size
-    if(bgdt_size % ret->b.block_size)
-        bgdt_size = (bgdt_size / ret->b.block_size + 1) * ret->b.block_size;
 
 	block_read(parent, (uint8_t *)ret->bgdt, bgdt_size,
 			get_sector_num(ret, bgdt_block));
@@ -464,7 +465,7 @@ struct dirent *ext2_read_dir(struct ext2_fs *fs, struct dirent *d)
 
 	uint32_t inode_idx = 2;	// root
 	if(d != (void*)0)
-		inode_idx = (uint32_t)d->opaque;
+		inode_idx = (uintptr_t)d->opaque;
 
 	struct dirent *ret = (void *)0;
 	struct dirent *prev = (void *)0;
@@ -500,6 +501,11 @@ struct dirent *ext2_read_dir(struct ext2_fs *fs, struct dirent *d)
 			uint16_t de_entry_size = *(uint16_t *)&block[ptr + 4];
 			uint16_t de_name_length = *(uint16_t *)&block[ptr + 6];
 			uint8_t de_type_flags = *(uint8_t *)&block[ptr + 7];
+
+			if (!de_entry_size) {
+				/* Invalid FS? */
+				break;
+			}
 
 			// Does the entry exist?
 			if(!de_inode_idx)
@@ -557,7 +563,7 @@ struct dirent *ext2_read_dir(struct ext2_fs *fs, struct dirent *d)
 			de->fs = &fs->b;
 			de->next = (void *)0;
 
-			de->opaque = (void*)de_inode_idx;
+			de->opaque = (void*)(uintptr_t)de_inode_idx;
 
 			ptr += de_entry_size;
 		}

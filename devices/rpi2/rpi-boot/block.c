@@ -24,7 +24,6 @@
 #include "block.h"
 
 #define MAX_TRIES		1
-//#define BLOCK_DEBUG 1
 
 size_t block_read(struct block_device *dev, uint8_t *buf, size_t buf_size, uint32_t starting_block)
 {
@@ -100,7 +99,7 @@ size_t block_write(struct block_device *dev, uint8_t *buf, size_t buf_size, uint
 			to_write = dev->block_size;
 
 //#ifdef BLOCK_DEBUG
-		printf("block_write: writing %i bytes to block %i on %s\r\n", to_write,
+		printf("block_write: writing %i bytes to block %i on %s\n", to_write,
 				starting_block + block_offset, dev->device_name);
 //#endif
 

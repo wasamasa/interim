@@ -12,6 +12,14 @@
 	Also affects compiler optimization flags */
 #undef DEBUG
 
+/* Offset to adjust physical device addresses by when using ATAGS 
+ * (0 for rpi v1, 0x1f000000 for raspi2 without dtb).
+ * If using DTB these will be ignored - if you still would rather use
+ * them then using the kernel.img-atag file will force the bootloader
+ * to use ATAG mode. */
+#define BASE_ADJUST_V1 0
+#define BASE_ADJUST_V2 0x1f000000
+
 /* Enable the framebuffer as an output device */
 #define ENABLE_FRAMEBUFFER
 
