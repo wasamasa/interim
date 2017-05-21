@@ -89,8 +89,59 @@ Cell* posixfs_read(Cell* stream) {
   return _file_cell;
 }
 
-Cell* posixfs_write(Cell* arg) {
-  return NULL;
+Cell* posixfs_write(Cell* stream_cell, Cell* arg) {
+  if (!stream_cell || stream_cell->tag != TAG_STREAM) {
+    printf("[posixfs] write error: non-stream argument given\n");
+    return alloc_nil();
+  }
+
+  if (!arg || (arg->tag != TAG_BYTES && arg->tag != TAG_STR)) {
+    printf("[posixfs] write error: non-bytes/string argument given\n");
+    return alloc_nil();
+  }
+
+  Stream* stream = stream_cell->ar.addr;
+  Cell* cpath = stream->path;
+  if (!cpath || cpath->tag!=TAG_STR) {
+    printf("[posixfs] write error: non-string path in stream\n");
+    return alloc_nil();
+  }
+
+  char* path = cpath->ar.addr;
+  printf("[posixfs] writing to %s\n", path);
+
+  if (!strncmp(path,"/sd/",4)) {
+    char* filename = NULL;
+    int f;
+
+    if (strlen(path)>4) {
+      filename = path+4;
+    }
+
+    if (!filename || !filename[0]) filename = ".";
+
+    f = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    printf("[posixfs] opened %s\n", filename);
+    if (f > -1) {
+      void *buf = arg->ar.addr;
+      ssize_t size = arg->dr.size;
+      ssize_t ret = write(f, buf, size);
+      close(f);
+
+      if (ret == size) {
+        printf("[posixfs] wrote %zi bytes to %s\n", size, filename);
+        return alloc_int(size);
+      } else {
+        printf("[posixfs] write error: couldn't write to file: %s\n", filename);
+        return alloc_nil();
+      }
+    } else {
+      printf("[posixfs] write error: could not open file: %s\n", filename);
+      return alloc_nil();
+    }
+  }
+
+  return alloc_nil();
 }
 
 Cell* posixfs_mmap(Cell* arg) {
