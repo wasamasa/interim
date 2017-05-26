@@ -23,9 +23,7 @@
    (let max (size buf))
    (while (lt i max)
     (do
-     (paint-pixel (+ x (% (/ i depth) p)) (+ y (/ i p)) (get16 buf i))
-     (print (list x y w h buf p i max))
-     (if (% i 1024) 0 (gc))
+     (paint-pixel (/ (+ x (% i p)) 2) (+ y (/ i p)) (get16 buf i))
      (let i (+ i 2)))))))
 
 (def image (load "/sd/demos/grumpycat.565"))
