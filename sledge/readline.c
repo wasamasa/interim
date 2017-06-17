@@ -3,6 +3,7 @@
 
 #ifdef READLINE
 #include <readline/readline.h>
+#include <readline/history.h>
 #endif
 
 #ifdef READLINE
@@ -13,6 +14,7 @@ char *read_line(char *buf, size_t size, FILE *in, const char *prompt) {
       return NULL;
     } else {
       snprintf(buf, size, "%s\n", result);
+      add_history(result);
       free(result);
       return buf;
     }
