@@ -1,4 +1,5 @@
 #include "alloc.h"
+#include "minilisp.h"
 #include <string.h>
 #include "stream.h"
 
@@ -163,6 +164,8 @@ void mark_tree(Cell* c) {
 static Cell* _symbols_list;
 void list_symbols_iter(const char *key, void *value, const void *obj)
 {
+  UNUSED(key);
+  UNUSED(obj);
   env_entry* e = (env_entry*)value;
   _symbols_list = alloc_cons(alloc_sym(e->name), _symbols_list);
 }
@@ -174,6 +177,8 @@ Cell* list_symbols(env_t* global_env) {
 
 void collect_garbage_iter(const char *key, void *value, const void *obj)
 {
+  UNUSED(key);
+  UNUSED(obj);
   env_entry* e = (env_entry*)value;
   //printf("key: %s value: %s\n", key, value);
   mark_tree(e->cell);

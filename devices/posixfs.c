@@ -9,6 +9,7 @@
 #include <dirent.h>
 
 Cell* posixfs_open(Cell* cpath) {
+  UNUSED(cpath);
   return alloc_int(1);
 }
 
@@ -138,6 +139,7 @@ Cell* posixfs_write(Cell* stream_cell, Cell* arg) {
 }
 
 Cell* posixfs_mmap(Cell* arg) {
+  UNUSED(arg);
   return alloc_nil();
 }
 

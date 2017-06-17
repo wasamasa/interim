@@ -101,4 +101,6 @@ typedef struct env_entry {
 #define car(x) (x?(Cell*)((Cell*)x)->ar.addr:NULL)
 #define cdr(x) (x?(Cell*)((Cell*)x)->dr.next:NULL)
 
+#define UNUSED(x) (void)(x)
+
 #endif

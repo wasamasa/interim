@@ -117,6 +117,7 @@ Cell* fbfs_write(Cell* arg) {
 }
 
 Cell* fbfs_mmap(Cell* arg) {
+  UNUSED(arg);
   sdl_init(0);
   Cell* fbtest = alloc_num_bytes(0);
   fbtest->ar.addr = sdl_get_fb();
@@ -238,6 +239,7 @@ Cell* mouse_open(Cell* cpath) {
 }
 
 Cell* mouse_read(Cell* stream) {
+  UNUSED(stream);
   mouse_buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 
   //int mouse_dx = mouse_x - last_mouse_x;
@@ -249,10 +251,12 @@ Cell* mouse_read(Cell* stream) {
 }
 
 Cell* mouse_write(Cell* arg) {
+  UNUSED(arg);
   return NULL;
 }
 
 Cell* mouse_mmap(Cell* arg) {
+  UNUSED(arg);
   return alloc_nil();
 }
 
