@@ -1,0 +1,25 @@
+* Motivation
+
+The more I dig into Interim, the hackier it seems to me.  A fork or a
+rewrite stealing its concepts might be worthwhile, but even more
+time-consuming than improving Interim.
+
+* Languages
+
+- Suck it up and write better C
+- C++ / Rust / Ada (more complicated than C)
+- D (you'd need to port most of the stdlib)
+- Forth (write an interpreter in ARM assembly, then implement Lisp on
+  top of that?)
+- Pascal (seems rather verbose and not as featureful as C)
+
+* Cheating
+
+There are projects for spitting out an executable that can run on bare
+metal with an useful stdlib.  That approach would allow concentrating
+on the interesting bits:
+
+- MirageOS: https://mirage.io/
+- Ultibo: https://github.com/pik33/ultibo-retromachine
+
+Downside of this approach is that you forego hosted mode.
