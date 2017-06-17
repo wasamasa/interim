@@ -16,6 +16,7 @@ COMPILE="arm-none-eabi-gcc $GCC_OPTS"
 
 mkdir -p obj
 $COMPILE -c -o obj/alloc.o  sledge/alloc.c
+$COMPILE -c -o obj/readline.o  sledge/readline.c
 $COMPILE -c -o obj/reader.o sledge/reader.c
 $COMPILE -c -o obj/strmap.o sledge/strmap.c
 $COMPILE -c -o obj/writer.o sledge/writer.c
@@ -46,7 +47,7 @@ $COMPILE -c -o obj/exceptionhandler.o devices/rpi2/uspi/env/lib/exceptionhandler
 
 $COMPILE -o build/interim-arm.elf -T devices/rpi2/arm.ld devices/rpi2/arm_start.S devices/rpi2/main_rpi2.c\
          obj/raspi.o obj/r3d.o\
-         obj/reader.o obj/strmap.o obj/alloc.o obj/writer.o obj/stream.o\
+         obj/readline.o obj/reader.o obj/strmap.o obj/alloc.o obj/writer.o obj/stream.o\
          obj/debug_util.o\
          devices/rpi2/uspi/lib/libuspi.a\
          \

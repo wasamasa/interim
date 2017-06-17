@@ -8,6 +8,7 @@
 #include "minilisp.h"
 #include "alloc.h"
 #include "compiler_new.c"
+#include "readline.h"
 
 #define BUFSZ 2048
 
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
   char* in_line = malloc(BUFSZ);
   char* in_buffer = malloc(64*BUFSZ);
   char* out_buf = malloc(BUFSZ);
+  char* prompt = "interim> ";
   char* res;
   int in_offset = 0;
   int parens = 0;
@@ -93,11 +95,10 @@ int main(int argc, char *argv[])
   }
 
   while (1) {
-    if (in_f == stdin) printf("interim> ");
     expr = NULL;
     len = 0;
 
-    res = fgets(in_line, BUFSZ, in_f);
+    res = read_line(in_line, BUFSZ, in_f, prompt);
     if (res) {
       len = strlen(in_line);
     }
@@ -120,9 +121,10 @@ int main(int argc, char *argv[])
       in_buffer[in_offset+i+1]=0;
     
       if (parens>0) {
-        if (in_f == stdin) printf("...\r\n");
+        if (in_f == stdin) prompt = "... ";
         in_offset+=i;
       } else {
+        prompt = "interim> ";
         in_offset=0;
         if (len>1) {
           ReaderState rs;
@@ -135,13 +137,13 @@ int main(int argc, char *argv[])
     }
 
     if (feof(in_f) || len==0) {
-      if (in_f!=stdin) close(in_fd);
-      in_f = stdin;
-      in_fd = 0;
-      in_offset=0;
-      if (feof(stdin)) {
+      if (in_f == stdin) {
         printf("\n");
         exit(0);
+      } else {
+        in_f = stdin;
+        in_fd = 0;
+        in_offset=0;
       }
     }
     
