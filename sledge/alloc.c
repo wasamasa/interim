@@ -433,11 +433,11 @@ Cell* alloc_concat(Cell* str1, Cell* str2) {
   if (str2->tag!=TAG_BYTES && str2->tag!=TAG_STR) return alloc_string_copy("");
 
   cell = cell_alloc();
-  size = snprintf(NULL, 0, "%s%s", str1->ar.addr, str2->ar.addr);
+  size = snprintf(NULL, 0, "%s%s", (char *)(str1->ar.addr), (char *)(str2->ar.addr));
   cell->ar.addr = bytes_alloc(size+1);
   cell->dr.size = size;
   cell->tag = TAG_STR;
-  snprintf(cell->ar.addr, size+1, "%s%s", str1->ar.addr, str2->ar.addr);
+  snprintf(cell->ar.addr, size+1, "%s%s", (char *)(str1->ar.addr), (char *)(str2->ar.addr));
   return cell;
 }
 
