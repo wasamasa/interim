@@ -86,6 +86,10 @@ int main(int argc, char *argv[])
   mount_amiga();
 #endif
   
+#ifdef READLINE
+  load_history();
+#endif
+
   if (argc==2) {
     in_fd = open(argv[1],O_RDONLY);
     in_f = fdopen(in_fd,"r");
@@ -138,6 +142,9 @@ int main(int argc, char *argv[])
 
     if (feof(in_f) || len==0) {
       if (in_f == stdin) {
+#ifdef READLINE
+        save_history();
+#endif
         printf("\n");
         exit(0);
       } else {
