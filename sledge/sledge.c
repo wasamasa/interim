@@ -185,6 +185,7 @@ Cell* platform_eval(Cell* expr) {
   
   if (!expr || expr->tag!=TAG_CONS) {
     printf("[platform_eval] error: no expr given.\r\n");
+    free(buf);
     return NULL;
   }
 
