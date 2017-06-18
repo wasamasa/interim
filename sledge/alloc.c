@@ -193,10 +193,11 @@ Cell* collect_garbage(env_t* global_env, void* stack_end, void* stack_pointer) {
 
   //printf("[gc] stack at: %p, stack end: %p\r\n",stack_pointer,stack_end);
 
-  int gc=0, i;
+  int gc=0;
 #ifdef DEBUG_GC
   int highwater=0;
 #endif
+  size_t i;
 
   int sw_state = 0;
   jit_word_t* a;

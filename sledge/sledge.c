@@ -42,10 +42,8 @@ int main(int argc, char *argv[])
   char* out_buf = malloc(BUFSZ);
   char* prompt = "interim> ";
   char* res;
-  int in_offset = 0;
   int parens = 0;
-  size_t len = 0;
-  int i;
+  size_t len = 0, i, in_offset = 0;
   int in_fd = 0;
   FILE* in_f;
 

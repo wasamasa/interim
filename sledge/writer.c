@@ -28,7 +28,7 @@ char* tag_to_str(int tag) {
   }
 }
 
-char* write_(Cell* cell, char* buffer, int in_list, int bufsize) {
+char* write_(Cell* cell, char* buffer, int in_list, unsigned int bufsize) {
   //printf("writing %p (%d) to %p, size: %d\n",cell,cell->tag,buffer,bufsize);
   bufsize--;
   
@@ -109,8 +109,8 @@ char* write_(Cell* cell, char* buffer, int in_list, int bufsize) {
       default: snprintf(buffer, bufsize, "<e"INTFORMAT":unknown>", cell->ar.value); break;
     }
   } else if (cell->tag == TAG_BYTES) {
-    int strsize = min(cell->dr.size*2+3, bufsize);
-    int max_bytes = (strsize-3)/2;
+    unsigned int strsize = min(cell->dr.size*2+3, bufsize);
+    unsigned int max_bytes = (strsize-3)/2;
 
     if (bufsize>5) {
       unsigned int i;
@@ -124,7 +124,7 @@ char* write_(Cell* cell, char* buffer, int in_list, int bufsize) {
   } else if (cell->tag == TAG_VEC || cell->tag == TAG_STRUCT || cell->tag == TAG_STRUCT_DEF) {
     Cell** vec = cell->ar.addr;
     int elements = cell->dr.size;
-    int pos = 1;
+    unsigned int pos = 1;
 
     if (bufsize>12) {
       int i=0;
