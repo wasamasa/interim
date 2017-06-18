@@ -3,7 +3,12 @@
 #include <stdio.h>
 
 #define TMP_BUF_SIZE 512
+
+#ifdef CPU_X86
+#define INTFORMAT "%d"
+#else
 #define INTFORMAT "%ld"
+#endif
 
 char* tag_to_str(int tag) {
   switch (tag) {
@@ -163,7 +168,7 @@ char* write_(Cell* cell, char* buffer, int in_list, unsigned int bufsize) {
       snprintf(buffer, bufsize, "<stream:null>");
     }
   } else {
-    snprintf(buffer, bufsize, "<tag:%ld>", cell->tag);
+    snprintf(buffer, bufsize, "<tag:"INTFORMAT">", cell->tag);
   }
   return buffer;
 }
