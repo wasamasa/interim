@@ -1150,7 +1150,7 @@ Cell* compile_expr(Cell* expr, Frame* frame, Cell* return_type) {
         jit_addi(R1,-PTRSZ);
         jit_pop(R3,R3);
         frame->sp--;
-        jit_stra(R1); // strw from r3
+        jit_stra(R1); // stra from r3
       }
 
       // load the struct name
