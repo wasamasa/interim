@@ -301,6 +301,7 @@ void jit_strs(int reg) {
 #define jit_stra jit_strw
 
 void jit_call(void* func, char* note) {
+  UNUSED(note);
   jit_lea(R0, func);
   code[code_idx++] = 0x57; // push edi
   code[code_idx++] = 0xff; // call *eax
@@ -312,6 +313,7 @@ void jit_call(void* func, char* note) {
 }
 
 void jit_call2(void* func, char* note) {
+  UNUSED(note);
   jit_lea(R0, func);
   code[code_idx++] = 0x56; // push esi
   code[code_idx++] = 0x57; // push edi
@@ -324,6 +326,7 @@ void jit_call2(void* func, char* note) {
 }
 
 void jit_call3(void* func, char* note) {
+  UNUSED(note);
   jit_lea(R0, func);
   code[code_idx++] = 0x52; // push edx
   code[code_idx++] = 0x56; // push esi
@@ -442,6 +445,7 @@ void jit_host_call_exit() {
 }
 
 void jit_comment(char* comment) {
+  UNUSED(comment);
 }
 
 void debug_handler() {
