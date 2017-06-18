@@ -1117,7 +1117,7 @@ Cell* compile_expr(Cell* expr, Frame* frame, Cell* return_type) {
       
       while ((key = car(args))) {
         if (key->tag != TAG_SYM) {
-          printf("<every second argument of struct following the struct'sname has to be a symbol>\r\n");
+          printf("<every second argument of struct following the struct's name has to be a symbol>\r\n");
           return 0;
         }
         jit_lea(R0,key);
