@@ -835,7 +835,7 @@ Cell* compile_expr(Cell* expr, Frame* frame, Cell* return_type) {
       char label_fe[64];
       
       Frame* nframe_ptr;
-      Frame nframe = {fn_new_frame, 0, 0, frame->stack_end};
+      Frame nframe = {fn_new_frame, 0, 0, frame->stack_end, NULL};
 #if CPU_ARM||__AMIGA||CPU_X86
       Label* fn_lbl;
 #endif
