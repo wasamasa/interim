@@ -28,7 +28,9 @@ Cell* compile_for_platform(Cell* expr, Cell** res) {
 
   Cell* success = compile_expr(expr, empty_frame, prototype_any);
   jit_ret();
+#ifdef DEBUG
   char* defsym = "anon";
+#endif
 
   if (!success) {
     printf("<compile_expr failed: %p>\r\n",success);
@@ -42,6 +44,7 @@ Cell* compile_for_platform(Cell* expr, Cell** res) {
     stat("/tmp/jit_out.s", &src_stat);
     off_t generated_sz = src_stat.st_size;
 
+#ifdef DEBUG
     if (expr && expr->tag == TAG_CONS && car(expr)->tag == TAG_SYM) {
       if (!strcmp(car(expr)->ar.addr,"def")) {
         defsym = car(cdr(expr))->ar.addr;
@@ -51,6 +54,7 @@ Cell* compile_for_platform(Cell* expr, Cell** res) {
         system(cpcmd);
       }
     }
+#endif
 
 #ifdef DEBUG
     FILE* asm_f = fopen("/tmp/jit_out.s","r");
