@@ -60,7 +60,10 @@ Cell* insert_global_symbol(Cell* symbol, Cell* cell) {
 
 #define TMP_PRINT_BUFSZ 1024
 
+#ifdef CPU_X64
 static FILE* jit_out;
+#endif
+
 static Cell* cell_heap_start;
 static int label_skip_count = 0;
 static char temp_print_buffer[TMP_PRINT_BUFSZ];
